@@ -48,10 +48,9 @@ void LLPQ::addFirst(char x, string co){
 	 */
 	LLNode *node = new LLNode(x);
 	first = node;
-	first->code =-1;
+	first->code = co;
 	last = first;
 	size = 1;
-	first->code = co;
 	delete node;
 }
 
@@ -64,14 +63,16 @@ void LLPQ::addAtFirst(char x, string co){
 	if(size==0){
 		addFirst(x, co);
 	}
-
-	LLNode *node = new LLNode(x);
-	node->next = first;
-	node->prev = NULL;
-	first->prev = node;
-	first = node;
-	node->code = co;
-	size++;
+	else{
+		LLNode *node = new LLNode(x);
+		node->next = first;
+		node->prev = NULL;
+		first->prev = node;
+		first = node;
+		//node->code = co;
+		size++;
+		delete node;
+	}
 
 }
 
@@ -112,7 +113,6 @@ void LLPQ::insertUnique(char c){
 // inserts only unique characters into the linked list.  If the character is already in the linked list,
 // it increases the count of that character
 	LLNode newtmp = LLNode(c);
-	int count = 0;
 	sortLL();
 	for(int i = 0; i < size; i++){
 /*		while(findCode(c) != newtmp->symbol){
@@ -149,7 +149,7 @@ void LLPQ::insertInOrder(LLNode *n){
 			tmp = tmp->right;
 
 		}
-		else if(sym == LLNode[i++]){
+		else if(sym == n[i++]){
 			tmp->next = tmp;
 			tmp = sym;
 		}

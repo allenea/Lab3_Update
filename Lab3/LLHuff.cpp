@@ -20,15 +20,19 @@ LLHuff::LLHuff(string f){
 	ascii = NULL;
 	pq = NULL;
 }
-LLHuff::~LLHuff(){
 
+LLHuff::~LLHuff(){
+	//write code
 }
 
 void LLHuff::ReadFile(){
 	ifstream infile(file.c_str(),ios::in);
+	cerr << "file read" << endl;
 	char k;
 	while(infile.get(k)){
+		cerr << "got " << k << "\t";
 		pq->insertUnique(k);
+		cerr << "inserted" << endl;
 	}
 	infile.close();
 }
@@ -76,57 +80,44 @@ void LLHuff::ReadAscii() {
 }
 
 
-///JOHNS CODE
+
 void LLHuff::MakeHuff(){
-	/*
-	if (pq->size == 1){
-		root = pq->first;
-		root->code = 1;
-		return;
+
+	while(pq->size > 1){
+		LLNode *tmp = pq->remFirst();
+		LLNode *tmp2 = pq->remFirst();
+		LLNode *c = new LLNode('*');
+		c->freq = tmp->freq +tmp2->freq;
+		c->left = tmp;
+		c->right = tmp2;
+		pq->insertInOrder(c);
+
+
 	}
-	else if(pq->first->freq >= pq->first->next->freq){
-		LLNode *nright = pq.*remFirst();
-		LLNode *nleft = pq.*remFirst();
-		nright->next, nright->prev, nleft->next, nleft->prev = NULL;
-		nright->code = 1;
-		nleft->code = 0;
-		LLNode* nAdd = new LLNode("*", nright->freq + nleft->freq);
-		pq->insertInOrder(nAdd);
-	}
-	else if(pq->first->freq < pq->first->next->code){
-		LLNode* nleft = pq.*remFirst();
-		LLNode* nright = pq.*remFirst();
-		nright->next, nright->prev, nleft->next, nleft->prev = NULL;
-		nright->code = 1;
-		nleft->code = 0;
-		LLNode* nAdd = new LLNode("*", nright->freq + nleft->freq);
-		pq->insertInOrder(nAdd);
-	}
-	return MakeHuff();
-	*/
+	root = pq->first;
 }
 
 
 void LLHuff::compressFile(){
-	/*
-	//readFile();
+
+	ReadFile();
 	ofstream compressed;
 	compressed.open("compressed.txt");
 	ifstream infile(file.c_str(), ios::in);
 	char k;
-	while (infile.get(k)){
+	while (infile.get(k)){//while implementing find code
 		string path;
 
 		FindCode(root, path);
 
 	}
-	*/
+
 }
 
 void LLHuff::FindCode(LLNode* root, string path){
-	/*
+
 	LLNode* tmp = pq->first;
-	while(tmp->code == -1){
+	while(tmp->code == "-1"){
 		tmp = tmp->next;
 	}
 
@@ -138,8 +129,7 @@ void LLHuff::FindCode(LLNode* root, string path){
 	if (root->right != NULL){
 		FindCode(root->right, path);
 	}
-	return;
-	*/
+
 }
 
 
