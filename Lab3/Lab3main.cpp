@@ -15,7 +15,7 @@ using namespace std;
 
 int main() {
 	cout << "reading file" << endl;
-	LLHuff code("tests.txt");
+	LLHuff code("test.txt");
 	code.ReadFile();
 	code.pq->printLLPQ();
 	code.pq->sortLL();

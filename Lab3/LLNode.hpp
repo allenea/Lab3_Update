@@ -15,9 +15,11 @@ using namespace std;
 class LLNode {
 	friend class LLPQ;
 	friend class LLHuff;
+	//attributes
 	char symbol;
 	string code;
 	int freq;
+
 	LLNode *next;
 	LLNode *prev;
 	LLNode *left;
@@ -26,6 +28,7 @@ class LLNode {
 public:
 	LLNode(char k); //, string code
 	~LLNode();
+	//getters
 	char getSymbol();
 	string getCode();
 	int getFreq();

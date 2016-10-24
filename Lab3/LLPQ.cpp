@@ -46,6 +46,7 @@ void LLPQ::addFirst(char x, string co){
 	 * //adds the very first character node to the linked list, along with an //original default code value set to -1.
 	 *
 	 */
+
 	LLNode *node = new LLNode(x);
 	first = node;
 	first->code = co;
