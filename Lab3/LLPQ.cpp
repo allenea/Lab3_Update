@@ -156,6 +156,8 @@ void LLPQ::insertUnique(char c){
 		tmp = tmp->next;
 	}
 	addAtFirst(c,"");
+	//LLNode *node = new LLNode(c);
+	//insertInOrder(node);
 }
 
 void LLPQ::insertInOrder(LLNode *n){
