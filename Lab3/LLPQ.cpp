@@ -149,6 +149,7 @@ void LLPQ::insertUnique(char c){
 
 	for(int num = 0; num<size;num++){
 		if(tmp->getSymbol() == c){ // try tmp->symbol
+			//tmp->code = "c";
 			tmp->freq++;
 			return;
 		}
