@@ -23,6 +23,23 @@ LLHuff::LLHuff(string f){
 
 LLHuff::~LLHuff(){
 	//write code
+	LLNode *tmp = NULL;
+	while(tmp!=NULL){
+		if(root->right == NULL){
+			if(root->left !=NULL){
+				tmp = root->left;
+			}
+		}
+		else if(root->right == NULL){
+			if(root->left !=NULL){
+				tmp = root->right;
+			}
+		}
+
+	else{
+		delete root;
+	}
+	}
 }
 void LLHuff::ReadFile() {
 	ifstream infile(file.c_str(),ios::in);     // open file
@@ -36,7 +53,6 @@ void LLHuff::ReadFile() {
 	}
 	infile.close();
 }
-
 
 
 void LLHuff::ReadAscii() {
@@ -116,19 +132,19 @@ void LLHuff::compressFile(){
 }
 
 void LLHuff::FindCode(LLNode* root, string path){
-
+/*
 	LLNode* tmp = pq->first;
 	while(tmp->code == "-1"){ //while code string  "-1"
 		tmp = tmp->next; //move to next, set tmp = to that.
-	}
+	}*/
 
-	path = path + string(tmp->code); //increase path
-	tmp->code = path;
+	//path = path + strincg(tmp->code); //increase path
+	//tmp->code = path;
 	if (root->left != NULL){ //if left not NULL
-		FindCode(root->left, path);//FindCode
+		FindCode(root->left, path + "0");//FindCode
 	}
 	if (root->right != NULL){ //If right not NULL
-		FindCode(root->right, path);//FindCode
+		FindCode(root->right, path + "1");//FindCode
 	}
 
 }

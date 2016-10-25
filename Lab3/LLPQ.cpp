@@ -9,6 +9,7 @@
 #include "LLNode.hpp"
 #include <string>
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 LLPQ::LLPQ() {
@@ -42,40 +43,55 @@ void LLPQ::printLLPQ(){
 
 }
 
-void LLPQ::addFirst(char x, string co){
+void LLPQ::addFirst(char k, string co){
 	/*
 	 * //adds the very first character node to the linked list, along with an //original default code value set to -1.
 	 *
 	 */
 
-	LLNode *node = new LLNode(x); // create a node
-	first = node; //set nod to first
-	first->code = co; // set the value of code (in stringL) from input parameter to the code of first node.
+	//LLNode *node = new LLNode(k); // create a node
+	first = new LLNode(k); //set nod to first
+	first->code = co;// ""; // set the value of code (in stringL) from input parameter to the code of first node.
 	last = first; //set first to last since only node in list
-	size = 1; //set size =1
+	first->freq++;
+	size ++; //set size =1
+
 	//delete node;
 }
 
-void LLPQ::addAtFirst(char x, string co){
+void LLPQ::addAtFirst(char k, string co){
 /*
  * add a new node to the beginning of the linked list (modifying the first
  * pointer and the size, and setting the code field to co, (default = -1).
  *
  */
-	if(size==0){// if no linked list
-		addFirst(x, co); // call function to addFirst and pass in the char and string
-	}
-	else{ // if not empty linked list
-		LLNode *node = new LLNode(x);
-		node->next = first;
-		node->prev = NULL;
-		first->prev = node;
-		first = node;
-		first->code = co; // set the value of code (in string) from input parameter to the code of first node.
-		size++;
-		//delete node;
-	}
+	LLNode *tmp = first;
 
+	if(size==0){// if no linked list
+		addFirst(k, co); // call function to addFirst and pass in the char and string
+		return;
+	}
+	else if(size == 1){
+		if(first->symbol == k){
+			first->freq++; //should = 2
+			first->prev = new LLNode(k);
+			first = first->prev;
+			first->next = tmp;
+			last = first->next;
+			first->code = co;
+			size++;
+			}
+		else{ // if not empty linked list
+			first->prev = new LLNode(k);
+			first = first->prev;
+			first->next = tmp;
+			last = first->next;
+			first->freq++;
+			first->code = co; // set the value of code (in string) from input parameter to the code of first node.
+			size++;
+			//delete node;
+		}
+	}
 }
 
 LLNode* LLPQ::remFirst(){
@@ -83,16 +99,34 @@ LLNode* LLPQ::remFirst(){
 	if(size == 0){
 		return NULL;
 	}
-	LLNode *node = first; //points to first
-	first = first->next;
-
-	first->prev = NULL;
-
-	size--;// decrease size
-
 	//test to see if node == null... IF NULL... BAD WRONG.
 
-	return node;
+	else if(size == 1){
+		LLNode *node = first; //points to first
+		first->next->prev =NULL;
+		first = first->next;
+		size--;
+		if(first->symbol == node->symbol){
+			first->freq--;
+		}
+		last = first;
+		return node;
+	}
+	else{
+		LLNode *node = first; //points to first
+		first = first->next;
+		first->prev = NULL;
+		size--;// decrease size
+		LLNode *tmp2 = first;
+		for(int i = 0;i<size;i++){
+			if(tmp2->symbol == node->symbol){
+				tmp2->freq--;
+			}//if
+		}
+
+
+		return node;
+	}
 }
 
 
@@ -100,21 +134,22 @@ string LLPQ::findCode(char k){
 // goes through the linked list, finds the character k, and returns the code associated with that node– used to
 //translate a file once you have the code (Note that if we had studied hash tables/maps, this would be so much easier using them
 	LLNode *tmp = first;
-	while(tmp->symbol != k){
-		tmp = tmp->next;
-	}
+	for(int i = 0; i<size;i++){
+		if(tmp->symbol == k){
+			//string fCode = tmp->code;
+			return tmp->code;
+		}
 
-	if(tmp->symbol == k){
-		string fCode = tmp->code;
-		return fCode;
-
+		else{
+			tmp = tmp->next;
+		}
 	}
 
 	cout<<tmp<<endl;
 	// see if it works under normal circumstances.. then check if character not found
 
 
-	return NULL;
+	return "no esta aquí";
 };
 
 
@@ -142,22 +177,30 @@ void LLPQ::sortLL(){
 //sortLL
 
 }
-void LLPQ::insertUnique(char c){
+void LLPQ::insertUnique(char k){
 // inserts only unique characters into the linked list.  If the character is already in the linked list,
 // it increases the count of that character
-	LLNode *tmp = first;
-
-	for(int num = 0; num<size;num++){
-		if(tmp->getSymbol() == c){ // try tmp->symbol
-			//tmp->code = "c";
-			tmp->freq++;
-			return;
-		}
+	cout<<size<<endl;
+	cout<<k<<endl;
+	if(size == 0){
+		addFirst(k);
+	}else{
+	LLNode* tmp = first;
+	while (tmp->getSymbol() != k && tmp != NULL){
+		cout<<tmp<<endl;
 		tmp = tmp->next;
+		cout<<tmp<<endl;
 	}
-	addAtFirst(c,"");
-	//LLNode *node = new LLNode(c);
-	//insertInOrder(node);
+	if (tmp != NULL){
+		LLNode* nNode = new LLNode(k);
+		nNode->prev = last;
+		last->next = nNode;
+		size++;
+		last = nNode;
+	}else{
+		tmp->freq = tmp->getFreq() + 1;
+	}
+	}
 }
 
 void LLPQ::insertInOrder(LLNode *n){
