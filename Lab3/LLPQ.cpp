@@ -15,8 +15,7 @@ LLPQ::LLPQ() {
 	//define pointers
 	first = NULL;
 	last = NULL;
-	//set size to 0
-	size = 0;
+	size = 0;	//set size to 0
 
 }
 
@@ -54,7 +53,7 @@ void LLPQ::addFirst(char x, string co){
 	first->code = co; // set the value of code (in stringL) from input parameter to the code of first node.
 	last = first; //set first to last since only node in list
 	size = 1; //set size =1
-	delete node; // delete node off heap
+	//delete node;
 }
 
 void LLPQ::addAtFirst(char x, string co){
@@ -74,7 +73,7 @@ void LLPQ::addAtFirst(char x, string co){
 		first = node;
 		first->code = co; // set the value of code (in string) from input parameter to the code of first node.
 		size++;
-		delete node;
+		//delete node;
 	}
 
 }
@@ -146,54 +145,18 @@ void LLPQ::sortLL(){
 void LLPQ::insertUnique(char c){
 // inserts only unique characters into the linked list.  If the character is already in the linked list,
 // it increases the count of that character
-	//	sortLL();//not needed
-
 	LLNode *tmp = first;
-	bool correct = false;
-	while(tmp->next != NULL){
-		if(tmp->getSymbol() == c){
-			tmp->freq = tmp->getFreq();
+
+	for(int num = 0; num<size;num++){
+		if(tmp->getSymbol() == c){ // try tmp->symbol
 			tmp->freq++;
-			correct = true;
-		}//if
-		tmp = tmp->next;
-	}//while
-	if(correct == false){
-		last->next = new LLNode(c);
-		size += 1;
-		last = last->next;
-	}//if
-}//insertUnique
-
-
-	/*
-	LLNode *tmp = first; //we are just setting first to a tmp.
-	while(tmp != NULL && tmp->symbol != c){
+			return;
+		}
 		tmp = tmp->next;
 	}
-	if(tmp == NULL){
-
-		last->next = new LLNode(c);
-		tmp = last->next;
-		last = last->next;
-		tmp->freq++;
-		size++;
-		/*
-		LLNode nNode = LLNode(c);
-		nNode.prev = last;
-		last->next = &nNode;
-		size++;
-		last = last->next;
-
-	}
-	else{
-		//size isn't changing only frequency.
-		tmp->freq++;
-	}
-
-
+	addAtFirst(c,"");
 }
-*/
+
 void LLPQ::insertInOrder(LLNode *n){
 	//char char1 = n->symbol;
 	//sortLL(); //assuming sort is already being called in main (Yarrington gave us)

@@ -15,9 +15,9 @@ using namespace std;
 
 //make
 LLNode::LLNode(char k) {//
-	symbol = k; //character
-	code = "";//empty string
-	freq = 0; //0
+	symbol = k;  //character
+	code = "";  //empty string
+	freq = 0;  //0
 	//POINTERS
 	next = NULL;
 	prev = NULL;
@@ -46,6 +46,6 @@ string LLNode::getCode(){
 int LLNode::getFreq(){
 	return freq;
 }
-//
+
 
 

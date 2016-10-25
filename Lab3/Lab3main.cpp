@@ -16,6 +16,7 @@ using namespace std;
 int main() {
 	cout << "reading file" << endl;
 	LLHuff code("test.txt");
+	cout<<"got here"<<endl;
 	code.ReadFile();
 	cout<<"NO ..got here"<<endl;
 	code.pq->printLLPQ();

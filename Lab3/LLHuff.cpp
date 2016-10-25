@@ -24,18 +24,19 @@ LLHuff::LLHuff(string f){
 LLHuff::~LLHuff(){
 	//write code
 }
-
-void LLHuff::ReadFile(){
-	ifstream infile(file.c_str(),ios::in);
+void LLHuff::ReadFile() {
+	ifstream infile(file.c_str(),ios::in);     // open file
 	cerr << "file read" << endl;
 	char k;
-	while(infile.get(k)){
+	while (infile.get(k)) {          // loop getting single characters
 		cerr << "got " << k << "\t";
 		pq->insertUnique(k);
 		cerr << "inserted" << endl;
+
 	}
 	infile.close();
 }
+
 
 
 void LLHuff::ReadAscii() {
