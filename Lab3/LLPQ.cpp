@@ -12,30 +12,32 @@
 using namespace std;
 
 LLPQ::LLPQ() {
+	//define pointers
 	first = NULL;
 	last = NULL;
+	//set size to 0
 	size = 0;
 
 }
 
-LLPQ::~LLPQ() {
+LLPQ::~LLPQ() { //destructor LLPQ
 	LLNode *tmp = first;
-	while (first != NULL) {
+	while (first != NULL) { //while not null
 		tmp = first->next;
-		delete first;
+		delete first; //delete
 		first = tmp;
-		size--;
+		size--; //decrease size as you remove.
 	}
-	first = NULL;
-	last = NULL;
+	first = NULL; //set to null
+	last = NULL; //set to null
 }
 
 void LLPQ::printLLPQ(){
 // prints out the linked list/ priority queue
-	LLNode *tmp = first;
-	while (tmp != NULL) {
-		cout << tmp->symbol << "->";
-		tmp = tmp->next;
+	LLNode *tmp = first; //set a tmp node to first value
+	while (tmp != NULL) { //while not null
+		cout << tmp->symbol << "->"; //add arrow between symbols
+		tmp = tmp->next; //index through to next.
 	}
 	cout << endl;
 
@@ -47,12 +49,12 @@ void LLPQ::addFirst(char x, string co){
 	 *
 	 */
 
-	LLNode *node = new LLNode(x);
-	first = node;
-	first->code = co;
-	last = first;
-	size = 1;
-	delete node;
+	LLNode *node = new LLNode(x); // create a node
+	first = node; //set nod to first
+	first->code = co; // set the value of code (in stringL) from input parameter to the code of first node.
+	last = first; //set first to last since only node in list
+	size = 1; //set size =1
+	delete node; // delete node off heap
 }
 
 void LLPQ::addAtFirst(char x, string co){
@@ -61,31 +63,37 @@ void LLPQ::addAtFirst(char x, string co){
  * pointer and the size, and setting the code field to co, (default = -1).
  *
  */
-	if(size==0){
-		addFirst(x, co);
+	if(size==0){// if no linked list
+		addFirst(x, co); // call function to addFirst and pass in the char and string
 	}
-	else{
+	else{ // if not empty linked list
 		LLNode *node = new LLNode(x);
 		node->next = first;
 		node->prev = NULL;
 		first->prev = node;
 		first = node;
-		//node->code = co;
+		first->code = co; // set the value of code (in string) from input parameter to the code of first node.
 		size++;
 		delete node;
 	}
 
 }
 
-LLNode *LLPQ::remFirst(){
+LLNode* LLPQ::remFirst(){
 // removes the first node from the list (to be used in creating the Huffman code
-	LLNode *node = first;
+	if(size == 0){
+		return NULL;
+	}
+	LLNode *node = first; //points to first
 	first = first->next;
+
 	first->prev = NULL;
-	size--;
-	delete node;
 
+	size--;// decrease size
 
+	//test to see if node == null... IF NULL... BAD WRONG.
+
+	return node;
 }
 
 
@@ -98,63 +106,110 @@ string LLPQ::findCode(char k){
 	}
 
 	if(tmp->symbol == k){
-		//tmp = tmp->code;
+		string fCode = tmp->code;
+		return fCode;
+
 	}
+
 	cout<<tmp<<endl;
-}
+	// see if it works under normal circumstances.. then check if character not found
+
+
+	return NULL;
+};
 
 
 void LLPQ::sortLL(){
 // sorts your linked list, based on the counts in the nodes (so the character that occurred the least frequently
 // will be at the beginning of the list, and the character that occurred most frequently will be at the end of the list.
+	LLNode *tmp = first;
+	LLNode *tmp2;
+	LLNode *tmp3;
+	int count;
+	while(tmp->next != NULL){
+		count = tmp->getFreq();
+		tmp3 = tmp;
+		tmp2 = tmp->next;
+		while(tmp2 != NULL){
+			if(tmp2->getFreq() < count){
+				count = tmp2->getFreq();
+				tmp3 = tmp2;
+			}//if
+			tmp2 = tmp2->next;
+		}//innerWhile
+		tmp = tmp->next;
 
+	}//outerWhile
+//sortLL
 
 }
 void LLPQ::insertUnique(char c){
 // inserts only unique characters into the linked list.  If the character is already in the linked list,
 // it increases the count of that character
-	LLNode newtmp = LLNode(c);
-	sortLL();
-	for(int i = 0; i < size; i++){
-/*		while(findCode(c) != newtmp->symbol){
-			newtmp = newtmp->next;
-		if(findCode(c) == newtmp){
-			count++;
-			newtmp = newtmp->next;
+	//	sortLL();//not needed
 
-		}
-		else{
-			last = last->prev;
-			last = newtmp;
-			count = 1;
-		}
-	}
-	}
-
-	freq = count;*/
-	}
-}
-void LLPQ::insertInOrder(LLNode *n){
-	//char char1 = *n->symbol;
-	//sort(*n);
 	LLNode *tmp = first;
-	sortLL();
-	char sym = n->symbol;
-	if (size == 0){
-		tmp->next = tmp;
-		*tmp = sym;
-	}
+	bool correct = false;
+	while(tmp->next != NULL){
+		if(tmp->getSymbol() == c){
+			tmp->freq = tmp->getFreq();
+			tmp->freq++;
+			correct = true;
+		}//if
+		tmp = tmp->next;
+	}//while
+	if(correct == false){
+		last->next = new LLNode(c);
+		size += 1;
+		last = last->next;
+	}//if
+}//insertUnique
+
+
 	/*
-	for (int i = 0; i < size; i++){
-		if(sym < n[i++]){
-			tmp = tmp->right;
+	LLNode *tmp = first; //we are just setting first to a tmp.
+	while(tmp != NULL && tmp->symbol != c){
+		tmp = tmp->next;
+	}
+	if(tmp == NULL){
 
-		}
-		else if(sym == n[i++]){
-			tmp->next = tmp;
-			tmp = sym;
-		}
+		last->next = new LLNode(c);
+		tmp = last->next;
+		last = last->next;
+		tmp->freq++;
+		size++;
+		/*
+		LLNode nNode = LLNode(c);
+		nNode.prev = last;
+		last->next = &nNode;
+		size++;
+		last = last->next;
 
 	}
-	*/
+	else{
+		//size isn't changing only frequency.
+		tmp->freq++;
+	}
+
+
+}
+*/
+void LLPQ::insertInOrder(LLNode *n){
+	//char char1 = n->symbol;
+	//sortLL(); //assuming sort is already being called in main (Yarrington gave us)
+	LLNode *tmp = first;
+	//char sym = n->symbol; //unused
+	int freqT = n->freq;
+	if (freqT == 0){
+		addAtFirst(n->getSymbol(), n->getCode());
+	}
+	if(freqT >0){ // if there is more than 1.
+		while(tmp->next->getFreq() <= freqT){
+			tmp = tmp->next;
+		}
+		LLNode *tmp2 = tmp->next;
+		tmp->next = new LLNode(n->getSymbol());
+		tmp->next->next = tmp2;
+		size ++;
+	}
 }

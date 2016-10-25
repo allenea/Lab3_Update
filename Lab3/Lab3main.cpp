@@ -17,6 +17,7 @@ int main() {
 	cout << "reading file" << endl;
 	LLHuff code("test.txt");
 	code.ReadFile();
+	cout<<"NO ..got here"<<endl;
 	code.pq->printLLPQ();
 	code.pq->sortLL();
 	code.pq->printLLPQ();

@@ -9,8 +9,6 @@
 #define LLHuff_HPP_
 #include "LLNode.hpp" //had commented out
 #include "LLPQ.hpp"
-
-
 #include <fstream>      // std::ifstream
 #include <iostream>
 #include <stdlib.h>

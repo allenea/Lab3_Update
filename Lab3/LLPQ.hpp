@@ -14,9 +14,12 @@ using namespace std;
 
 
 class LLPQ {
+	// friend class
 	friend class LLHuff; //added
+	//Pointers
 	LLNode *first;
 	LLNode *last;
+	//attributes
 	int size;
 
 public:
@@ -24,8 +27,8 @@ public:
 	~LLPQ();
 	//Function Declarations
 	void printLLPQ();
-	void addFirst(char x, string co = "");
-	void addAtFirst(char x, string co ="");
+	void addFirst(char x, string co = ""); // co = empty string
+	void addAtFirst(char x, string co ="");// co = empty string
 	LLNode *remFirst();
 	string findCode(char k);
 	void sortLL();
