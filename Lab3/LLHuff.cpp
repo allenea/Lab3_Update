@@ -39,14 +39,14 @@ void LLHuff::ReadFile(){
 
 
 void LLHuff::ReadAscii() {
-	cout << file << endl;
+	cout << file << endl; //file name
 	ifstream infile("asciitable.txt",ios::in);     // open file
 	char ch;
 	string asciicode;
 	if (!infile.is_open()) {
 		return;
 	}
-	infile >> asciicode;
+	infile >> asciicode; //input file
 	pq->addFirst(' ',asciicode);
 	infile >> asciicode;
 	while (infile>>ch) {          // loop getting single characters
@@ -70,27 +70,27 @@ void LLHuff::ReadAscii() {
 			cout << "ERROR WITH " << k << endl;
 		}
 		else {
-			cout << k << ":" << comp << endl;
+			cout << k << ":" << comp << endl; // output file character :comp (code)
 			outfile << comp << " ";
 		}
 	}
 	cout << endl;
-	infile2.close();
-	outfile.close();
+	infile2.close();//close input file
+	outfile.close();//close output file
 }
 
 
 
 void LLHuff::MakeHuff(){
 
-	while(pq->size > 1){
-		LLNode *tmp = pq->remFirst();
-		LLNode *tmp2 = pq->remFirst();
-		LLNode *c = new LLNode('*');
-		c->freq = tmp->freq +tmp2->freq;
-		c->left = tmp;
-		c->right = tmp2;
-		pq->insertInOrder(c);
+	while(pq->size > 1){ //while size is greater than 1
+		LLNode *tmp = pq->remFirst();//remove
+		LLNode *tmp2 = pq->remFirst();//remove
+		LLNode *c = new LLNode('*');//string
+		c->freq = tmp->freq +tmp2->freq; //gets frequency
+		c->left = tmp; //to left
+		c->right = tmp2;//to right
+		pq->insertInOrder(c);//insertInOrder
 
 
 	}
@@ -100,15 +100,15 @@ void LLHuff::MakeHuff(){
 
 void LLHuff::compressFile(){
 
-	ReadFile();
+	ReadFile();// read in file
 	ofstream compressed;
-	compressed.open("compressed.txt");
+	compressed.open("compressed.txt"); //open compressed
 	ifstream infile(file.c_str(), ios::in);
 	char k;
 	while (infile.get(k)){//while implementing find code
 		string path;
 
-		FindCode(root, path);
+		FindCode(root, path);//FindCode
 
 	}
 
@@ -117,17 +117,17 @@ void LLHuff::compressFile(){
 void LLHuff::FindCode(LLNode* root, string path){
 
 	LLNode* tmp = pq->first;
-	while(tmp->code == "-1"){
-		tmp = tmp->next;
+	while(tmp->code == "-1"){ //while code string  "-1"
+		tmp = tmp->next; //move to next, set tmp = to that.
 	}
 
-	path = path + string(tmp->code);
+	path = path + string(tmp->code); //increase path
 	tmp->code = path;
-	if (root->left != NULL){
-		FindCode(root->left, path);
+	if (root->left != NULL){ //if left not NULL
+		FindCode(root->left, path);//FindCode
 	}
-	if (root->right != NULL){
-		FindCode(root->right, path);
+	if (root->right != NULL){ //If right not NULL
+		FindCode(root->right, path);//FindCode
 	}
 
 }

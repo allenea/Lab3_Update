@@ -13,13 +13,14 @@
 using namespace std;
 
 class LLNode {
+	//friend class
 	friend class LLPQ;
 	friend class LLHuff;
-	//attributes
+	//attributes- declaration
 	char symbol;
 	string code;
 	int freq;
-
+	// Pointer Declaration
 	LLNode *next;
 	LLNode *prev;
 	LLNode *left;
